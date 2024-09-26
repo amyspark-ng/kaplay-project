@@ -1,27 +1,41 @@
-import { appWindow } from "@tauri-apps/api/window";
-
-import { volumeManager } from "../plugins/volumebar.ts"
-
-import { addConfetti } from "../plugins/confetti.ts"
+import { GameSave } from "../gamesave.ts";
+import { gameCursor } from "../plugins/customCursor.ts";
 import { positionSetter } from "../plugins/positionsetter.ts"
+import { utils } from "../utils.ts";
 
-export function gamescene() {
-	return scene("gamescene", () => {
-		volumeManager()
-		
-		add([
-			sprite("osaka"),
-			anchor("center"),
-			pos(center()),
-			positionSetter(),
-		])
+export const gamescene = () => scene("gamescene", () => {
+	const bean = add([
+		sprite("bean"),
+		anchor("center"),
+		pos(center()),
+		positionSetter(),
+		area(),
+		layer("background"),
+	])
 
-		addConfetti({ pos: center() })
-		
-		onClick(() => {
-			addConfetti({ pos: center() })
-		})
+	GameSave.write(GameSave.getLatestSave())
 
-		if ('__TAURI__' in window) debug.log("running on desktop!!")
+	let score = GameSave.highscore
+
+	bean.onClick(() => {
+		score++
+		GameSave.highscore = score
 	})
-}
+
+	bean.onHover(() => {
+		gameCursor().point()
+	})
+
+	bean.onHoverEnd(() => {
+		gameCursor().default()
+	})
+
+	onKeyPress("enter", () => {
+		GameSave.write(GameSave)
+		debug.log("Game saved!")
+	})
+
+	utils.runInDesktop(() => {
+		debug.log("This game is running on desktop!!!")
+	})
+}) 

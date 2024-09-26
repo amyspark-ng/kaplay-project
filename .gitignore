@@ -21,3 +21,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# keys for newgrounds, other stuff like that
+env.json

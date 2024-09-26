@@ -1,6 +1,6 @@
 # Kaplay Template (by amyspark-ng & niceEli)
 Template for the web game library [KAPLAY](https://kaplayjs.com/), which helps you to make games fast and fun!
-* Running `kaplay v3001.0.0-alpha.10`
+* Running `kaplay v4000.0.0-alpha.4`
 
 It works with vite and tauri for desktop builds
 
@@ -13,9 +13,10 @@ It works with vite and tauri for desktop builds
 - `/assets` has all the assets, to load one you'd do `loadSprite("osaka", "sprites/osaka.png")` no need for `loadRoot()`
 
 ### Building
-- **`pnpm dev`** runs the game in a window
-- **`pnpm build`** builds the game and puts it in `/src-tauri/target/release`
-	- `web:` can be put before both for web development
+- **`pnpm dev`** runs the game in localhost:8000
+- **`pnpm build`** builds the game and puts it in `build.zip` 
+	- `desktop:` can be put before both for desktop development
+	- making a build with put it in `/src-tauri/target/release`
 
 - If you use vscode tasks they will be put in `builds` folder
 ^ Also has support for butler and sending builds to itch.io

@@ -4,21 +4,21 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "web:dev": "vite",
-    "web:build": "tsc && vite build",
+    "dev": "vite",
+    "build": "tsc && vite build",
     "preview": "vite preview",
-    "dev": "tauri dev",
-    "build": "tauri build"
+    "desktop:dev": "tauri dev",
+    "desktop:build": "tauri build"
   },
   "dependencies": {
-    "@tauri-apps/api": "^1.5.6",
-    "kaplay": "3001.0.0-alpha.10"
+    "@tauri-apps/api": "^1.6.0",
+    "kaplay": "4000.0.0-alpha.4"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1.5.14",
-    "terser": "^5.31.1",
-    "typescript": "^5.4.5",
-    "vite": "^5.3.0",
-    "vite-plugin-singlefile": "^2.0.1"
+    "@tauri-apps/cli": "^1.6.1",
+    "terser": "^5.32.0",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.5",
+    "vite-plugin-singlefile": "^2.0.2"
   }
 }

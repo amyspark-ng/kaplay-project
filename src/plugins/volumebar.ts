@@ -1,6 +1,6 @@
 
 import { Key } from "kaplay";
-import { GameState } from "../gamestate.ts"
+import { GameSave } from "../gamesave.ts";
 
 let bg:any;
 let volumeText:any;
@@ -28,7 +28,7 @@ export function addSoundElements() {
 		"volElement",
 		{
 			update() {
-				if (GameState.sound.volume > 0) this.text = `VOLUME ${(Math.round(GameState.sound.volume * 100))}%`
+				if (GameSave.sound.volume > 0) this.text = `VOLUME ${(Math.round(GameSave.sound.volume * 100))}%`
 				else this.text = "MUTED"
 			}
 		}
@@ -47,7 +47,7 @@ export function addSoundElements() {
 			{
 				volume: 0.1 * (i + 1),
 				update() {
-					if (GameState.sound.volume.toFixed(1) < this.volume.toFixed(1)) this.opacity = 0.1
+					if (GameSave.sound.volume.toFixed(1) < this.volume.toFixed(1)) this.opacity = 0.1
 					else this.opacity = 1
 				}
 			}
@@ -59,7 +59,7 @@ export function addSoundElements() {
 }
 
 export function volumeManager() {
-	volume(GameState.sound.volume)
+	volume(GameSave.sound.volume)
 	
 	let changeVolTune = 0
 	let waitingTimer = wait(0)
@@ -68,21 +68,21 @@ export function volumeManager() {
 		stay(),
 		{
 			update() {
-				GameState.sound.volume = Number(GameState.sound.volume.toFixed(1))
-				changeVolTune = map(GameState.sound.volume, 0, 1, -250, 0)
+				GameSave.sound.volume = Number(GameSave.sound.volume.toFixed(1))
+				changeVolTune = map(GameSave.sound.volume, 0, 1, -250, 0)
 
 				if (isKeyPressed("-")) {
-					if (GameState.sound.volume > 0) {
-						GameState.sound.volume -= 0.1
-						volume(GameState.sound.volume)
+					if (GameSave.sound.volume > 0) {
+						GameSave.sound.volume -= 0.1
+						volume(GameSave.sound.volume)
 					}
 					this.trigger("show")
 				}
 
 				else if (isKeyPressed("+" as Key)) {
-					if (GameState.sound.volume <= 0.9) {
-						GameState.sound.volume += 0.1
-						volume(GameState.sound.volume)
+					if (GameSave.sound.volume <= 0.9) {
+						GameSave.sound.volume += 0.1
+						volume(GameSave.sound.volume)
 					}
 					this.trigger("show")
 				}
@@ -112,10 +112,10 @@ export function volumeManager() {
 		let n = parseInt(ch)
 		// is a number
 		if (!isNaN(n)) {
-			GameState.sound.volume = n / 10
-			volume(GameState.sound.volume)
+			GameSave.sound.volume = n / 10
+			volume(GameSave.sound.volume)
 			soundManager.trigger("show")
-		}			
+		}
 	})
 
 	return soundManager;
