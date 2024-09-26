@@ -1,19 +1,24 @@
 import kaplay, { KAPLAYOpt } from "kaplay"
 import "kaplay/global"
-import { loadEverything } from "./loader"
+
+import { loadEverything, loadingScreen } from "./loader"
 import { addCursor } from "./plugins/customCursor"
 import { utils } from "./utils"
 import { getCurrent, WebviewWindow } from "@tauri-apps/api/window"
 import { GameSave } from "./gamesave"
 
-let DEBUG = false
+import * as env from "./env.json"
+import { volumeManager } from "./plugins/sound"
+
+// ===== FLAGS =====
+let DEBUG = true
 const VERSION = "0.0.0"
+console.log(`GAME VERSION: ${VERSION}`)
 
 export const libraryOpts = {
 	width: 1024,
 	height: 576,
 	canvas: document.querySelector("#kanva"),
-	logMax: 1,
 	debugKey: "f1",
 	debug: DEBUG,
 	loadingScreen: true,
@@ -21,9 +26,10 @@ export const libraryOpts = {
 	backgroundAudio: true,
 	stretch: false,
 	letterbox: false,
-	maxFPS: 120,
+	maxFPS: 90,
 } as KAPLAYOpt
 
+// ===== GLOBALS =====
 export let appWindow: WebviewWindow  = null
 utils.runInDesktop(() => {
 	appWindow = getCurrent()
@@ -31,15 +37,19 @@ utils.runInDesktop(() => {
 	libraryOpts.letterbox = true
 })
 
-console.log(`GAME VERSION: ${VERSION}`)
-
 const k = kaplay(libraryOpts)
 
-loadEverything()
-
+// ===== WHERE THE GAME ACTUALLY STARTS =====
 setCursor("none")
+
+// All the loaidng
+GameSave.load()
+loadEverything()
+onLoading((progress:number) => loadingScreen(progress))
 onLoad(() => {
 	addCursor()
+	volumeManager()
+	
 	go("gamescene")
 })
 
@@ -49,5 +59,5 @@ layers([
 	"cursor",
 ], "cursor")
 
-const latestSave = GameSave.getLatestSave()
-GameSave.write(latestSave)
+// make sure ENV exists
+console.log(env.FAKE_KEY)

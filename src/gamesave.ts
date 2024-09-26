@@ -1,6 +1,6 @@
-class volumeProp {
+export class volumeProp {
 	muted: boolean = false;
-	volume: number = 0;
+	volume: number = 1;
 }
 
 /**
@@ -26,7 +26,7 @@ export class GameSaveClass {
 			this[key] = value
 		}
 
-		setData("gameSave", JSON.stringify(this))
+		setData("gameSave", this)
 	}
 
 	/**
@@ -41,16 +41,22 @@ export class GameSaveClass {
 	 * Gets the latest stored save 
 	 */
 	getLatestSave() : GameSaveClass {
-		const data = getData("gameSave") as string
 		const newGameSave = new GameSaveClass()
+		const data = getData("gameSave", newGameSave) as GameSaveClass
 
 		// figure out a way to see if data doesn't have a key that new GameSaveClass does
 		Object.keys(newGameSave).forEach(function(k) {
 			if (!data.hasOwnProperty(k)) data[k] = newGameSave[k];
 		});
 
-		if (data) return JSON.parse(data) as GameSaveClass
-		return null
+		return data;
+	}
+
+	/**
+	 * Assigns itself to {@link getLatestSave `getLatestSave()`}
+	 */
+	load() {
+		Object.assign(this, this.getLatestSave())
 	}
 }
 

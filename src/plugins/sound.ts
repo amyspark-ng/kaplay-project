@@ -1,14 +1,12 @@
 
-import { Key } from "kaplay";
-import { GameSave } from "../gamesave.ts";
+import { AudioPlayOpt, Key } from "kaplay";
+import { GameSave, volumeProp } from "../gamesave.ts";
 
-let bg:any;
-let volumeText:any;
-let soundElements:any;
-let volumeBars:any;
-
+/**
+ * Adds all the objects related to volume bar
+ */
 export function addSoundElements() {
-	bg = add([
+	const bg = add([
 		rect(width() / 6, 80, { radius: 2.5 }),
 		pos(width() / 2, 0),
 		anchor("top"),
@@ -19,7 +17,7 @@ export function addSoundElements() {
 		"volElement",
 	])
 	
-	volumeText = bg.add([
+	const volumeText = bg.add([
 		text("VOLUME"),
 		pos(0, bg.height - 12),
 		anchor("center"),
@@ -53,14 +51,13 @@ export function addSoundElements() {
 			}
 		])
 	}
-
-	soundElements = get("volElement", { recursive: true })
-	volumeBars = get("bar", { recursive: true })
 }
 
 export function volumeManager() {
 	volume(GameSave.sound.volume)
 	
+	const soundElements = () => get("volElement", { recursive: true })
+
 	let changeVolTune = 0
 	let waitingTimer = wait(0)
 
@@ -91,32 +88,36 @@ export function volumeManager() {
 	])
 
 	soundManager.on("hide", () => {
-		if (get("volElement").length === 0) return
+		if (soundElements().length === 0) return
 		
-		soundElements.forEach(soundElement => {
+		soundElements().forEach(soundElement => {
 			destroy(soundElement)
 		});
 	})
 
 	soundManager.on("show", () => {
-		if (get("volElement").length === 0) addSoundElements()
+		if (soundElements().length === 0) addSoundElements()
 
 		waitingTimer.cancel()
 		waitingTimer = wait(1, () => {
 			soundManager.trigger("hide")
 		})
+		
 		play("volumeChange", { detune: changeVolTune })
 	})
 
-	onCharInput((ch) => {
-		let n = parseInt(ch)
-		// is a number
-		if (!isNaN(n)) {
-			GameSave.sound.volume = n / 10
-			volume(GameSave.sound.volume)
-			soundManager.trigger("show")
-		}
-	})
-
 	return soundManager;
+}
+
+// ======= SOUND PLAYING ==========
+
+type playSoundOpts = AudioPlayOpt & {
+	soundChannel: volumeProp
+}
+
+export function playSound(soundName: string, opts:playSoundOpts) {
+	play(soundName, { 
+		...opts,
+		volume: opts.soundChannel.muted ? 0 : opts.soundChannel.volume	
+	})
 }
