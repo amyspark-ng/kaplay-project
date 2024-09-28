@@ -8,4 +8,8 @@ export class utils {
 			action()
 		}
 	}
+	
+	static randomPos() {
+		return vec2(rand(0, width()), rand(0, height()))
+	}
 }

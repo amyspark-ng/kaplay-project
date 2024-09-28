@@ -1,6 +1,6 @@
 
-import { AudioPlayOpt, Key } from "kaplay";
-import { GameSave, volumeProp } from "../gamesave.ts";
+import { AudioPlay, AudioPlayOpt, Key } from "kaplay";
+import { GameSave, volumeProp } from "../game/gamesave";
 
 /**
  * Adds all the objects related to volume bar
@@ -115,9 +115,28 @@ type playSoundOpts = AudioPlayOpt & {
 	soundChannel: volumeProp
 }
 
-export function playSound(soundName: string, opts:playSoundOpts) {
-	play(soundName, { 
+/**
+ * Custom type that extends `AudioPlay`
+ */
+type moreAudioPlay = AudioPlay & {
+	randomizePitch(range: [number, number]): void
+}
+
+/**
+ * Custom function for playing sound
+ */
+export function playSound(soundName: string, opts:playSoundOpts) : moreAudioPlay {
+	const audioPlayer = play(soundName, { 
 		...opts,
-		volume: opts.soundChannel.muted ? 0 : opts.soundChannel.volume	
+		volume: opts.soundChannel.muted ? 0 : opts.soundChannel.volume,
 	})
+
+	function randomizePitch(range: [number, number]) {
+		audioPlayer.detune = rand(range[0], range[1])
+	}
+
+	return {
+		...audioPlayer,
+		randomizePitch
+	}
 }

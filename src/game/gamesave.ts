@@ -1,3 +1,5 @@
+import { SAVE_NAME } from "../main";
+
 export class volumeProp {
 	muted: boolean = false;
 	volume: number = 1;
@@ -15,7 +17,7 @@ export class GameSaveClass {
 	sound = {
 		sfx: new volumeProp(),
 		music: new volumeProp(),
-		volume: 0,
+		volume: 1,
 	}
 
 	/**
@@ -26,7 +28,7 @@ export class GameSaveClass {
 			this[key] = value
 		}
 
-		setData("gameSave", this)
+		setData(SAVE_NAME, this)
 	}
 
 	/**
@@ -42,7 +44,7 @@ export class GameSaveClass {
 	 */
 	getLatestSave() : GameSaveClass {
 		const newGameSave = new GameSaveClass()
-		const data = getData("gameSave", newGameSave) as GameSaveClass
+		const data = getData(SAVE_NAME, newGameSave) as GameSaveClass
 
 		// figure out a way to see if data doesn't have a key that new GameSaveClass does
 		Object.keys(newGameSave).forEach(function(k) {

@@ -1,4 +1,4 @@
-import { gamescene } from "./scenes/gamescene.ts"
+import { gamescene } from "../play/gamescene";
 
 export function loadingScreen(progress: number) {
 	// Black background
@@ -34,10 +34,11 @@ export function loadEverything() {
 
 	loadSound("music", "sounds/music.ogg")
 	loadSound("click", "sounds/saataandagi.ogg")
+	
+	loadSound("plap", "sounds/plap.mp3")
+	loadSound("plop", "sounds/plop.mp3")
 
-	loadScenes()
-}
+	loadSound("bounce", "sounds/ClickUp.ogg")
 
-export function loadScenes() {
 	gamescene()
 }
