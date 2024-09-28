@@ -5,7 +5,7 @@
 		{
 			"label": "Build: Build kaplay for html5",
 			"type": "shell",
-			"command": "pnpm web:build ; 7z a -tzip ./builds/web-build.zip ./dist/*",
+			"command": "pnpm build ; 7z a -tzip ./builds/web-build.zip ./dist/*",
 			"group": {
 				"kind": "build",
 			}
@@ -23,7 +23,7 @@
 			// Needs 7zip
 			"label": "Itch.io: Deliver kaplay for html5",
 			"type": "shell",
-			"command": "pnpm web:build ; 7z a -tzip ./builds/web-build.zip ./dist/* ; butler push builds/web-build.zip your_name_here/your_game_name_here:html5 --userversion 1.0",
+			"command": "pnpm build ; 7z a -tzip ./builds/web-build.zip ./dist/* ; butler push builds/web-build.zip amyspark-ng/marble-playground:html5 --userversion 1.0",
 		},
 		{
 			// This runs the pnpm build and then runs the butler to send it to itch.io

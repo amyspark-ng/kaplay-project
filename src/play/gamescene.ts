@@ -72,4 +72,8 @@ export function gamescene() { return scene("gamescene", () => {
 	onKeyPress("space", () => {
 		get("bounceableBean").forEach(bean => tween(bean.pos, utils.randomPos(), 0.5, (p) => bean.pos = p))
 	})
+
+	onMousePress("right", () => {
+		createBounceable(mousePos())
+	})
 })} // END OF SCENE
