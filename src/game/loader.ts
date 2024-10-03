@@ -1,4 +1,5 @@
 import { gamescene } from "../play/gamescene";
+import { titlescene } from "../ui/titlescene";
 
 export function loadingScreen(progress: number) {
 	// Black background
@@ -33,12 +34,17 @@ export function loadEverything() {
 	loadSprite("pointer", "sprites/pointer-o.png")
 
 	loadSound("music", "sounds/music.ogg")
-	loadSound("click", "sounds/saataandagi.ogg")
+	loadSound("saataandagi", "sounds/saataandagi.ogg")
 	
 	loadSound("plap", "sounds/plap.mp3")
 	loadSound("plop", "sounds/plop.mp3")
 
 	loadSound("bounce", "sounds/ClickUp.ogg")
 
+	// Object.values().forEach(sceneType => {
+	// 	sceneType.sceneThing()
+	// });
+
 	gamescene()
+	titlescene()
 }

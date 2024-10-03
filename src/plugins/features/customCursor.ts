@@ -1,4 +1,5 @@
 import { Comp } from "kaplay"
+import { gameLayers } from "../../game/layers"
 
 interface customCursorComp extends Comp {
 	point: () =>  void
@@ -35,6 +36,7 @@ export function addCursor(lerpValue?:number) {
 		pos(),
 		cursorComponent(),
 		stay(),
+		layer(gameLayers.cursor),
 		"gameCursor",
 		{
 			update() {

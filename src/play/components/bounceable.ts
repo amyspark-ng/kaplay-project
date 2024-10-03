@@ -1,6 +1,6 @@
 import { AreaComp, Comp, GameObj, PosComp, Vec2 } from "kaplay";
-import { dragComp } from "../../plugins/drag";
-import { playSound } from "../../plugins/sound";
+import { dragComp } from "../../plugins/features/drag";
+import { playSound } from "../../plugins/features/sound";
 import { GameSave } from "../../game/gamesave";
 
 interface bounceableComp extends Comp {
@@ -8,7 +8,7 @@ interface bounceableComp extends Comp {
 }
 
 export function playBounceSound() {
-	return playSound("bounce", { soundChannel: GameSave.sound.sfx }).randomizePitch([-100, 100])
+	return playSound("bounce", { channel: GameSave.sound.sfx }).randomizePitch([-100, 100])
 }
 
 export type bounceableType = GameObj & bounceableComp & AreaComp & dragComp & PosComp
@@ -36,14 +36,14 @@ export function bounceable() : bounceableComp {
 			this.onClick(() => {
 				this.bounceMov = vec2(0)
 				this.pick()
-				playSound("plap", { soundChannel: GameSave.sound.sfx })
+				playSound("plap", { channel: GameSave.sound.sfx })
 			})
 
 			this.onMouseRelease(() => {
 				if (this.dragging) {
 					this.bounceMov = mouseDeltaPos()
 					this.drop()
-					playSound("plop", { soundChannel: GameSave.sound.sfx })
+					playSound("plop", { channel: GameSave.sound.sfx })
 				}
 			})
 		},

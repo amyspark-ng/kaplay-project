@@ -1,9 +1,5 @@
 import { SAVE_NAME } from "../main";
-
-export class volumeProp {
-	muted: boolean = false;
-	volume: number = 1;
-}
+import { volumeChannel } from "../plugins/features/sound";
 
 /**
  * Holds all the info to game save
@@ -15,9 +11,9 @@ export class GameSaveClass {
 	highscore: number = 0
 
 	sound = {
-		sfx: new volumeProp(),
-		music: new volumeProp(),
-		volume: 1,
+		sfx: new volumeChannel(),
+		music: new volumeChannel(),
+		masterVolume: 1,
 	}
 
 	/**
