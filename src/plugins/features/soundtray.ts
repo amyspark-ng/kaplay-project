@@ -1,7 +1,7 @@
 import { GameObj, KEventController, Key, StayComp, TimerController, TweenController } from "kaplay"
 import { GameSave } from "../../game/gamesave"
 import { playSound } from "./sound"
-import { juice } from "../juiceComponent"
+import { juice } from "../graphics/juiceComponent"
 
 export interface SoundTray {
 	show: (keepAround?: boolean) => void,
@@ -79,7 +79,6 @@ function addSoundElements() {
 }
 
 const getSoundElements = () => get("volElement", { recursive: true })
-
 const fixVolume = () => GameSave.sound.masterVolume = parseFloat(GameSave.sound.masterVolume.toFixed(1))
 
 /**
@@ -196,13 +195,12 @@ export function setupSoundtray() {
 			const bar = getSoundElements().filter((obj) => obj.volume == GameSave.sound.masterVolume)[0]
 			
 			if (bar) {
-				bar.bop(1, 1.2)
+				bar.bop({ startScale: 1.2, endScale: 1 })
 			}
 
 			if (GameSave.sound.masterVolume == 1) {
 				const bars = getSoundElements().filter(obj => obj.is("bar"))
-				bars.forEach((bar) => bar.bop(1, 1.2))
-				// playSound("saataandagi")
+				bars.forEach((bar) => bar.bop({ startScale: 1.2, endScale: 1 }))
 			}
 
 			play("plap")
@@ -214,13 +212,13 @@ export function setupSoundtray() {
 			const bar = getSoundElements().filter((obj) => obj.volume == GameSave.sound.masterVolume)[0]
 			
 			if (bar) {
-				bar.bop(1, 0.8)
+				bar.bop({ startScale: 0.9, endScale: 1 })
 			}
 		}
 
 		// CHANGE WAS 0, called through show() function
 		else {
 
-		} 
+		}
 	})
 }

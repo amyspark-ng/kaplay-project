@@ -10,11 +10,16 @@ export class volumeChannel {
 /**
  * Custom interface that extends {@link AudioPlay `AudioPlay`}
  */
-interface customAudioPlay extends AudioPlay {
+export interface customAudioPlay extends AudioPlay {
 	/**
 	 * Randomized the pitch of the sound 
 	 */
 	randomizePitch: (minMax?: [number, number]) => void
+	/**
+	 * Scratches a sound (like a record)
+	 * @param change -1 being unscratch and 1 scratch
+	 */
+	scratch: (change: -1 | 1) => void
 }
 
 /**
@@ -39,6 +44,20 @@ export function playSound(soundName: string, opts?:customAudioPlayOpt) : customA
 	audioPlayer.randomizePitch = (minMax?: [number, number]) => {
 		minMax = minMax ?? [-100, 100]
 		audioPlayer.detune = rand(minMax[0], minMax[1])
+	}
+
+	audioPlayer.scratch = (change: -1 | 1) => {
+		if (change == -1) {
+			tween(audioPlayer.detune, audioPlayer.detune - 50, 0.3, (p) => audioPlayer.detune = p)
+			tween(audioPlayer.speed, audioPlayer.speed * 0.8, 0.3, (p) => audioPlayer.speed = p)
+			tween(audioPlayer.volume, 0, 0.3, (p) => audioPlayer.volume = p)
+		}
+
+		else if (change == 1) {
+			tween(audioPlayer.detune, opts.detune, 0.3, (p) => audioPlayer.detune = p)
+			tween(audioPlayer.speed, opts.speed, 0.3, (p) => audioPlayer.speed = p)
+			tween(audioPlayer.volume, opts.volume, 0.3, (p) => audioPlayer.volume = p)
+		}
 	}
 
 	return audioPlayer

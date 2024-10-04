@@ -1,4 +1,4 @@
-import { Comp, EaseFunc, TweenController, Vec2 } from "kaplay"
+import { Comp, EaseFunc, GameObj, ScaleComp, TweenController, Vec2 } from "kaplay"
 
 type shakePanicReturnType = {
 	/**
@@ -7,18 +7,38 @@ type shakePanicReturnType = {
 	cancel: () => void
 }
 
+type squishOpts = {
+	/*** Wheter to stretch it horizontally or vertically (for both use Bop()) */
+	XorY: "x" | "y",
+	/*** The scale it will start at */
+	startScale: number,
+	/*** The scale it will end at  */
+	endScale: number,
+	/*** The time i'll take */
+	theTime?: number,
+	/*** The easing function */
+	theEasing?: EaseFunc
+}
+
+type bopOpts = {
+	/*** The scale it will start at */
+	startScale: number | Vec2,
+	/*** The scale it will end at  */
+	endScale: number | Vec2,
+	/*** The time i'll take */
+	theTime?: number,
+	/*** The easing function */
+	theEasing?: EaseFunc
+}
+
 interface juiceComp extends Comp {
 	/**
-	 * Stretches/squishes an object, BE CAREFUL WITH ANCHORS!!
-	 * @param XOrY Wheter it's horizontally (x) or vertically (y)
-	 * @param originalSize The size the object originally has, the one it will return to
-	 * @param howMuch How much will it stretch/squish depending on if it's greater or lesser than the original size
-	 * @param theTime How much time will it take to un-stretch 
-	 * @param theEasing The easing function
+	 * Stretches/squishes an object
+	 * @param opts The options
 	 * @returns The tween, maybe you can cancel it
 	 */
-	stretch(XOrY:"x" | "y", originalSize:number, howMuch:number, theTime?:number, theEasing?:EaseFunc): TweenController;
-
+	stretch(opts:squishOpts): TweenController
+	
 	/**
 	 * Bops an object (basically a shorthand for stretch on both sides, thought it was nicer)
 	 * 
@@ -28,7 +48,7 @@ interface juiceComp extends Comp {
 	 * @param theTime How long i'll take for it to go back to normal
 	 * @param theEasing The easing function
 	 */
-	bop(originalSize:Vec2 | number, howMuch?:Vec2 | number, theTime?:number, theEasing?:EaseFunc): TweenController
+	bop(opts: bopOpts): TweenController
 
 	/**
 	 * Shakes an object
@@ -57,25 +77,25 @@ interface juiceComp extends Comp {
 export function juice() : juiceComp {
 	return {
 		id: "juice",
-		require: [ "scale", "pos", "timer" ],
+		require: [ "scale", "pos" ],
 
-		stretch(XOrY:"x" | "y", originalSize:number, howMuch:number, theTime?:number, theEasing?:EaseFunc) {
-			XOrY = XOrY ?? "y"
-			theTime = theTime ?? 0.5
-			theEasing = theEasing ?? easings.easeOutQuad
-			
-			return tween(howMuch, originalSize, theTime, (p) => this.scale[XOrY] = p, theEasing)
+		stretch(opts: squishOpts) {
+			opts.XorY = opts.XorY ?? "y"
+			opts.theTime = opts.theTime ?? 0.5
+			opts.theEasing = opts.theEasing ?? easings.easeOutQuad
+
+			return tween(opts.startScale, opts.endScale, opts.theTime, (p) => this.scale[opts.XorY] = p, opts.theEasing)
 		},
 
-		bop(originalSize:Vec2 | number, howMuch?:Vec2 | number, theTime?:number, theEasing?:EaseFunc) {
+		bop(opts: bopOpts) {
 			
-			if (typeof originalSize == "number") originalSize = vec2(originalSize)
-			if (typeof howMuch == "number") howMuch = vec2(howMuch)
+			if (typeof opts.startScale == "number") opts.startScale = vec2(opts.startScale)
+			if (typeof opts.endScale == "number") opts.endScale = vec2(opts.endScale)
 
-			theTime = theTime ?? 0.5
-			theEasing = theEasing ?? easings.easeOutQuad
+			opts.theTime = opts.theTime ?? 0.5
+			opts.theEasing = opts.theEasing ?? easings.easeOutQuad
 
-			return tween(howMuch, originalSize, theTime, (p) => this.scale = p, theEasing)
+			return tween(opts.startScale, opts.endScale, opts.theTime, (p) => this.scale = p, opts.theEasing)
 		},
 
 		tweak(initialPos, includeDiagonals?, strength?, theTime?, easeFunc?) {
@@ -110,22 +130,24 @@ export function juice() : juiceComp {
 		},
 
 		shakePanic(initialPos: Vec2, time?: number, strength?: number, interval?: number) : shakePanicReturnType {
+			const thisObj = this;
+			
 			time = time ?? 1
 			strength = strength ?? 10
 			interval = interval ?? 0.05
 			
-			let shakeLoop = this.loop(interval, () => {
+			let shakeLoop = loop(interval, () => {
 				const newPos = initialPos.add(rand(-strength, strength), rand(-strength, strength)) 
-				this.pos = newPos
+				thisObj.pos = newPos
 			})
 
 			function cancelFunction() {
 				shakeLoop.cancel()
-				this.pos = initialPos
+				thisObj.pos = initialPos
 			}
 
-			this.wait(time, cancelFunction)
-			
+			let waitThing = wait(time, cancelFunction)
+
 			return {
 				cancel: cancelFunction
 			}
