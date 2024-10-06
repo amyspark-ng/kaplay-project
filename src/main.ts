@@ -10,7 +10,7 @@ import * as env from "./game/env.json"
 import { drag } from "./plugins/features/drag"
 import { setupSoundtray } from "./plugins/features/soundtray"
 import { setupLayers } from "./game/layers"
-import { sceneNameType } from "./game/scenes"
+import { sceneNameType, setupScenes } from "./game/scenes"
 
 // ===== FLAGS =====
 export let DEBUG = true
@@ -52,6 +52,7 @@ loadEverything()
 onLoading((progress:number) => loadingScreen(progress))
 onLoad(() => {
 	addCursor()
+	setupScenes()
 
 	console.log(`GAME VERSION: ${VERSION}`)
 	console.log(env.FAKE_KEY)

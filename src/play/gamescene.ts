@@ -1,3 +1,4 @@
+import { GameSave } from "../game/gamesave"
 import { gameLayers } from "../game/layers"
 import { goScene, sceneNameType } from "../game/scenes"
 import { fadeOutTransition } from "../game/transitions/fadeOutTransition"
