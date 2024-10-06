@@ -3,8 +3,7 @@ import { goScene, sceneNameType } from "../scenes";
 
 export function fadeOutTransition(newScene: sceneNameType) {
 	const fade = add([
-		sprite("bean"),
-		// rect(width() / 2, height() / 2),
+		rect(width(), height()),
 		pos(center().x, center().y),
 		anchor("center"),
 		color(BLACK),
@@ -18,13 +17,14 @@ export function fadeOutTransition(newScene: sceneNameType) {
 	const FADE_TIME = 1
 
 	// Changes the scene
-	fade.fadeIn(FADE_TIME).onEnd(() => {
+	fade.tween(0, 1, FADE_TIME, (p) => fade.opacity = p).onEnd(() => {
 		goScene(newScene)
 	})
-
+	
 	// Runs when the scene has succesfully been changed
 	const sceneLeaveChange = onSceneLeave(() => {
-		fade.fadeOut(FADE_TIME).onEnd(() => {
+		fade.tween(1, 0, FADE_TIME, (p) => fade.opacity = p).onEnd(() => {
+			goScene(newScene)
 			fade.destroy()
 			sceneLeaveChange.cancel()
 		})
