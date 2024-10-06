@@ -10,7 +10,7 @@ export function gamescene() { return scene("game" as sceneNameType, () => {
 	setBackground(RED.lighten(60))
 	
 	const bean = add([
-		sprite("bean"),
+		sprite("burpman"),
 		layer(gameLayers.background),
 		pos(center()),
 		anchor("center"),

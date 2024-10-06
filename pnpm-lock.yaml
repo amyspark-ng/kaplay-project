@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@kaplayjs/crew':
+        specifier: ^1.6.1
+        version: 1.6.1(terser@5.32.0)(typescript@5.6.2)
       '@tauri-apps/api':
         specifier: ^1.6.0
         version: 1.6.0
@@ -231,6 +234,11 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
+
+  '@kaplayjs/crew@1.6.1':
+    resolution: {integrity: sha512-P5jYieeWc5prYCjnBr5PZY2KQZ1gnnCyrPl5ddYAOetQyIel/9n3o+Obs1jnja9dny80QrhL4a3w75gMIqsZxA==}
+    peerDependencies:
+      typescript: ^5.0.0
 
   '@kaplayjs/dprint-config@1.0.1':
     resolution: {integrity: sha512-tCG2EemNl2RJerc1Im3qiBMpfGxmiyK2AAxIGeXD0EKz1toWOdeW/A+4e8eztQIFQFCYYgxXCsnKti/xFmcZmw==}
@@ -636,6 +644,20 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
+
+  '@kaplayjs/crew@1.6.1(terser@5.32.0)(typescript@5.6.2)':
+    dependencies:
+      typescript: 5.6.2
+      vite: 5.4.5(terser@5.32.0)
+    transitivePeerDependencies:
+      - '@types/node'
+      - less
+      - lightningcss
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - terser
 
   '@kaplayjs/dprint-config@1.0.1':
     dependencies:

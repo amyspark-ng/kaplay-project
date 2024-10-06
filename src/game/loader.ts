@@ -1,6 +1,5 @@
-import { gamescene } from "../play/gamescene";
-import { titlescene } from "../ui/titlescene";
-import { allScenes, defineScenes, setupScenes } from "./scenes";
+import { setupScenes } from "./scenes";
+import { assets } from "@kaplayjs/crew"; 
 
 export function loadingScreen(progress: number) {
 	// Black background
@@ -41,6 +40,12 @@ export function loadEverything() {
 	loadSound("plop", "sounds/plop.mp3")
 
 	loadSound("bounce", "sounds/ClickUp.ogg")
+
+	// load crew
+	Object.keys(assets).forEach(assetName => {
+		loadSprite(assetName, assets[assetName].outlined)
+	});
+	loadSound("stickerKey", "sounds/stickerKey.ogg")
 
 	setupScenes()
 }

@@ -11,6 +11,7 @@
     "desktop:build": "tauri build"
   },
   "dependencies": {
+    "@kaplayjs/crew": "^1.6.1",
     "@tauri-apps/api": "^1.6.0",
     "kaplay": "4000.0.0-alpha.4"
   },
