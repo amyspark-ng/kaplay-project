@@ -1,4 +1,4 @@
-import { gamescene } from "../play/gamescene"
+import { gamescene } from "../play/gamescene";
 import { titlescene } from "../ui/titlescene";
 
 export class sceneType {
@@ -11,18 +11,42 @@ export class sceneType {
 	}
 }
 
-type sceneName = "game" | "title"
-
-export const scenes = {
-	"gamescene": new sceneType("gamescene", gamescene),
-	"titlescene": new sceneType("titlescene", titlescene),
-}
+export let allScenes:sceneType[] = []
 
 /**
- * Custom function to changing the scene
- * @param sceneName Name of the scene
- * @param extraParam for scene
+ * 
+ * @param sceneName 
+ * @param extraParam 
+ * @param transition 
  */
-export function goScene(sceneName: sceneName, extraParam:any) {
-	go(sceneName + "_scene")
+export function goScene(sceneName: sceneNameType, transition?: (newName: sceneNameType) => void, ...args:any) {
+	if (transition) {
+		transition(sceneName)
+	}
+
+	else {
+		go(sceneName, args)
+	}
+}
+
+export function defineScenes(objectWithScenes: any) {
+	for (const [key, value] of Object.entries(objectWithScenes)) {
+		allScenes.push(new sceneType(key, value as () => void))
+	}
+}
+
+const allGameScenes = {
+	"game": gamescene,
+	"title": titlescene,
+}
+
+export type sceneNameType = keyof typeof allGameScenes
+
+export function setupScenes() {
+	// defines all the scenes
+	defineScenes(allGameScenes)
+
+	allScenes.forEach(sceneType => {
+		sceneType.sceneThing()
+	});
 }

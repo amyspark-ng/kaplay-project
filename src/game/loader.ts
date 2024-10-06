@@ -1,5 +1,6 @@
 import { gamescene } from "../play/gamescene";
 import { titlescene } from "../ui/titlescene";
+import { allScenes, defineScenes, setupScenes } from "./scenes";
 
 export function loadingScreen(progress: number) {
 	// Black background
@@ -41,10 +42,5 @@ export function loadEverything() {
 
 	loadSound("bounce", "sounds/ClickUp.ogg")
 
-	// Object.values().forEach(sceneType => {
-	// 	sceneType.sceneThing()
-	// });
-
-	gamescene()
-	titlescene()
+	setupScenes()
 }
