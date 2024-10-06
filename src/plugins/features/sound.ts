@@ -7,6 +7,14 @@ export class volumeChannel {
 	volume: number = 1;
 }
 
+type scratchOpts = {
+	newDetune?: number,
+	newSpeed?: number,
+	newVolume?: number,
+	/** How long the changes will take */
+	time?: number,
+}
+
 /**
  * Custom interface that extends {@link AudioPlay `AudioPlay`}
  */
@@ -16,10 +24,9 @@ export interface customAudioPlay extends AudioPlay {
 	 */
 	randomizePitch: (minMax?: [number, number]) => void
 	/**
-	 * Scratches a sound (like a record)
-	 * @param change -1 being unscratch and 1 scratch
+	 * Scratches a sound (like a record), if the params are lesser than the current AudioPlay object then at the end of the tween it will be PAUSED
 	 */
-	scratch: (change: -1 | 1) => void
+	scratch: (opts?:scratchOpts) => void
 }
 
 /**
@@ -46,18 +53,33 @@ export function playSound(soundName: string, opts?:customAudioPlayOpt) : customA
 		audioPlayer.detune = rand(minMax[0], minMax[1])
 	}
 
-	audioPlayer.scratch = (change: -1 | 1) => {
-		if (change == -1) {
-			tween(audioPlayer.detune, audioPlayer.detune - 50, 0.3, (p) => audioPlayer.detune = p)
-			tween(audioPlayer.speed, audioPlayer.speed * 0.8, 0.3, (p) => audioPlayer.speed = p)
-			tween(audioPlayer.volume, 0, 0.3, (p) => audioPlayer.volume = p)
+	audioPlayer.scratch = (opts:scratchOpts) => {
+		let direction:"backwards" | "forwards"
+		
+		if (opts.newSpeed < audioPlayer.speed || opts.newDetune < audioPlayer.detune) {
+			direction = "backwards"
 		}
 
-		else if (change == 1) {
-			tween(audioPlayer.detune, opts.detune, 0.3, (p) => audioPlayer.detune = p)
-			tween(audioPlayer.speed, opts.speed, 0.3, (p) => audioPlayer.speed = p)
-			tween(audioPlayer.volume, opts.volume, 0.3, (p) => audioPlayer.volume = p)
+		else {
+			direction = "forwards"
 		}
+		
+		opts.newDetune = opts.newDetune ?? audioPlayer.detune - 80
+		opts.newSpeed = opts.newSpeed ?? audioPlayer.speed * 0.8
+		opts.newVolume = opts.newVolume ?? 0
+		opts.time = opts.time ?? 0.5
+
+		if (direction == "forwards") {
+			audioPlayer.paused = false
+		}
+
+		tween(audioPlayer.detune, opts.newDetune, opts.time, (p) => audioPlayer.detune = p)
+		tween(audioPlayer.speed, opts.newSpeed, opts.time, (p) => audioPlayer.speed = p)
+		tween(audioPlayer.volume, opts.newVolume, opts.time, (p) => audioPlayer.volume = p).onEnd(() => {
+			if (direction == "backwards") {
+				audioPlayer.paused = true
+			}
+		})
 	}
 
 	return audioPlayer

@@ -34,13 +34,11 @@ export function loadEverything() {
 	loadSprite("cursor", "sprites/cursor-o.png")
 	loadSprite("pointer", "sprites/pointer-o.png")
 
-	loadSound("music", "sounds/music.ogg")
+	loadSound("opening", "sounds/opening.ogg")
+	loadSound("ending", "sounds/ending.mp3")
 	loadSound("saataandagi", "sounds/saataandagi.ogg")
 	
 	loadSound("plap", "sounds/plap.mp3")
 	loadSound("plop", "sounds/plop.mp3")
-
-	loadSound("bounce", "sounds/ClickUp.ogg")
-
-	setupScenes()
+	loadSound("ClickUp", "sounds/ClickUp.ogg")
 }

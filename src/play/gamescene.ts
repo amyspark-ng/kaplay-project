@@ -1,3 +1,4 @@
+import { GameSave } from "../game/gamesave"
 import { gameLayers } from "../game/layers"
 import { goScene, sceneNameType } from "../game/scenes"
 import { fadeOutTransition } from "../game/transitions/fadeOutTransition"
@@ -18,24 +19,4 @@ export function gamescene() { return scene("game" as sceneNameType, () => {
 		area(),
 		scale(),
 	])
-
-	let paused = true
-
-	let music = playSound("music")
-	music.scratch(-1)
-
-	onKeyPress("backspace", () => {
-		goScene("title", slidingSquareTransition)
-	})
-
-	onKeyPress("space", () => {
-		if (paused) {
-			paused = false
-		}
-
-		else {
-			paused = true
-		}
-	})
-
 })} // END OF SCENE
