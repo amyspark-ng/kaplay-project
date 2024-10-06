@@ -16,14 +16,16 @@ export class utils {
 	}
 
 	/** Scratch a song, like FNF does it lol! */
-	static FNFScratch(audioPlayer: customAudioPlay) {
+	static FNFScratch(audioPlayer: customAudioPlay, time?: number) {
+		time = time ?? 1
+		
 		const ogDetune = audioPlayer.detune
-		tween(audioPlayer.volume, 0, 0.8, (p) => audioPlayer.volume = p).onEnd(() => {
+		tween(audioPlayer.volume, 0, 0.8 * time, (p) => audioPlayer.volume = p).onEnd(() => {
 
 		})
 
-		tween(audioPlayer.detune, ogDetune + 300, 0.1, (p) => audioPlayer.detune = p).onEnd(() => {
-			tween(audioPlayer.detune, ogDetune - 150, 0.4, (p) => audioPlayer.detune = p)
+		tween(audioPlayer.detune, ogDetune + 300, 0.1 * time, (p) => audioPlayer.detune = p).onEnd(() => {
+			tween(audioPlayer.detune, ogDetune - 150, 0.4 * time, (p) => audioPlayer.detune = p)
 		})
 	}
 }

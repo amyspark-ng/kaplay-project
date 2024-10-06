@@ -41,7 +41,7 @@ export function loadEverything() {
 	loadSound("plop", "sounds/plop.mp3")
 	loadSound("ClickUp", "sounds/ClickUp.ogg")
 
-	loadSound("bounce", "sounds/ClickUp.ogg")
+	loadSound("ClickUp", "sounds/ClickUp.ogg")
 
 	// load crew
 	Object.keys(assets).forEach(assetName => {

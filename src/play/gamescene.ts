@@ -7,6 +7,7 @@ import { stickersTransition } from "../game/transitions/stickersSubstate"
 import { customAudioPlay, playSound } from "../plugins/features/sound"
 import { soundTray } from "../plugins/features/soundtray"
 import { juice } from "../plugins/graphics/juiceComponent"
+import { utils } from "../utils"
 
 export function gamescene() { return scene("game" as sceneNameType, () => {
 	setBackground(RED.lighten(60))
@@ -21,23 +22,11 @@ export function gamescene() { return scene("game" as sceneNameType, () => {
 		scale(),
 	])
 
-	let paused = true
-
-	let music = playSound("music")
-	music.scratch(-1)
-
-	onKeyPress("backspace", () => {
+	const music = playSound("ending")
+	tween(0, 1, 0.5, (p) => music.volume = p)
+	
+	onKeyPress("escape", () => {
+		utils.FNFScratch(music)
 		goScene("title", stickersTransition)
 	})
-
-	onKeyPress("space", () => {
-		if (paused) {
-			paused = false
-		}
-
-		else {
-			paused = true
-		}
-	})
-
 })} // END OF SCENE
