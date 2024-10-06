@@ -14,7 +14,10 @@ const STICKER_SCALE = 3.5
 /** Time it'll take to add a sticker, removal will be half of it */
 const STICKER_TIME = 0.05
 
-/** Amount of sticker there'll be */
+/**
+ * Amount of sticker there'll be, will determine the time the transition will and how "good" it'll look
+ * @default [70, 80]
+ */
 const STICKERS_AMOUNT = [70, 80]
 
 /** Optional, can use a pack lol */
