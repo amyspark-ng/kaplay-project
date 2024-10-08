@@ -1,7 +1,4 @@
-import { gamescene } from "../play/gamescene";
-import { titlescene } from "../ui/titlescene";
-import { allScenes, defineScenes, setupScenes } from "./scenes";
-
+/** The loading screen of the game */
 export function loadingScreen(progress: number) {
 	// Black background
 	drawRect({
@@ -26,7 +23,8 @@ export function loadingScreen(progress: number) {
 	});
 }
 
-export function loadEverything() {
+/** Loads all the assets of the game */
+export function loadAssets() {
 	loadBean()
 	loadSprite("osaka", "osaka.png")
 	loadSound("volumeChange", "sounds/volumeChange.wav")

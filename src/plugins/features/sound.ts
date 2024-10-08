@@ -27,6 +27,9 @@ export interface customAudioPlay extends AudioPlay {
 	 * Scratches a sound (like a record), if the params are lesser than the current AudioPlay object then at the end of the tween it will be PAUSED
 	 */
 	scratch: (opts?:scratchOpts) => void
+
+	/** Winds down a song, like in FNF! */
+	windDown: () => void
 }
 
 /**
@@ -79,6 +82,14 @@ export function playSound(soundName: string, opts?:customAudioPlayOpt) : customA
 			if (direction == "backwards") {
 				audioPlayer.paused = true
 			}
+		})
+	}
+
+	audioPlayer.windDown = () => {
+		const ogDetune = audioPlayer.detune
+		tween(audioPlayer.volume, 0, 0.8, (p) => audioPlayer.volume = p).onEnd(() => audioPlayer.paused = true)
+		tween(audioPlayer.detune, ogDetune + 300, 0.1, (p) => audioPlayer.detune = p).onEnd(() => {
+			tween(audioPlayer.detune, ogDetune - 150, 0.4, (p) => audioPlayer.detune = p)
 		})
 	}
 

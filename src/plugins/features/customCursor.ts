@@ -36,6 +36,7 @@ export function addCursor(lerpValue?:number) {
 		pos(),
 		cursorComponent(),
 		stay(),
+		fixed(),
 		layer(gameLayers.cursor),
 		"gameCursor",
 		{

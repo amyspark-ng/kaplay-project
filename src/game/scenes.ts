@@ -1,5 +1,7 @@
+import { SceneDef } from "kaplay";
 import { gamescene } from "../play/gamescene";
 import { titlescene } from "../ui/titlescene";
+import { focusscene } from "../ui/focusscene";
 
 export class sceneType {
 	key: string;
@@ -19,32 +21,28 @@ export let allScenes:sceneType[] = []
  * @param extraParam 
  * @param transition 
  */
-export function goScene(sceneName: sceneNameType, transition?: (newName: sceneNameType) => void, ...args:any) {
-	if (transition) {
-		transition(sceneName)
-	}
-
-	else {
-		go(sceneName, args)
-	}
+export function goScene(sceneName: sceneNameType, transition?: (newName: sceneNameType) => void | null, ...args:any) {
+	if (transition != null) transition(sceneName)
+	else go(sceneName, args)
 }
 
-export function defineScenes(objectWithScenes: any) {
+export function setTheScenes(objectWithScenes: any) {
 	for (const [key, value] of Object.entries(objectWithScenes)) {
 		allScenes.push(new sceneType(key, value as () => void))
 	}
 }
 
 const allGameScenes = {
-	"game": gamescene,
+	"focus": focusscene,
 	"title": titlescene,
+	"game": gamescene,
 }
 
 export type sceneNameType = keyof typeof allGameScenes
 
 export function setupScenes() {
 	// defines all the scenes
-	defineScenes(allGameScenes)
+	setTheScenes(allGameScenes)
 
 	allScenes.forEach(sceneType => {
 		sceneType.sceneThing()

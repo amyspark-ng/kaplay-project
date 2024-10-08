@@ -1,13 +1,9 @@
 import { SAVE_NAME } from "../main";
 import { volumeChannel } from "../plugins/features/sound";
 
-/**
- * Holds all the info to game save
- */
+/** Holds all the info that should be saved and loaded through sessions */
 export class GameSaveClass {
-	/**
-	 * Player highscore
-	 */
+	/** Player highscore */
 	highscore: number = 0
 
 	sound = {
@@ -16,33 +12,31 @@ export class GameSaveClass {
 		masterVolume: 1,
 	}
 
-	/**
-	 * Save all the info
-	 */
-	write(theNewSave:GameSaveClass) {
-		for (const [key, value] of Object.entries(theNewSave)) {
-			this[key] = value
-		}
-
+	/** Writes current instance to localStorage */
+	save() {
 		setData(SAVE_NAME, this)
 	}
 
 	/**
-	 * Sets this class to a new instance of itself
+	 * Sets GameSave to an instance
+	 * @param theNewSave The instance
 	 */
-	delete() {
-		const theNewSave = new GameSaveClass()
-		this.write(theNewSave)
+	set(theNewSave:GameSaveClass = this.getLatestSave()) {
+		Object.assign(this, theNewSave)
 	}
 
-	/**
-	 * Gets the latest stored save 
-	 */
+	/** Sets this class to a new instance of itself */
+	delete() {
+		const theNewSave = new GameSaveClass()
+		this.set(theNewSave)
+	}
+
+	/** Gets the latest instance in localStorage */
 	getLatestSave() : GameSaveClass {
 		const newGameSave = new GameSaveClass()
+		// newGameSave is the default in case it doesn't find a save
 		const data = getData(SAVE_NAME, newGameSave) as GameSaveClass
 
-		// figure out a way to see if data doesn't have a key that new GameSaveClass does
 		Object.keys(newGameSave).forEach(function(k) {
 			if (!data.hasOwnProperty(k)) data[k] = newGameSave[k];
 		});
@@ -50,12 +44,11 @@ export class GameSaveClass {
 		return data;
 	}
 
-	/**
-	 * Assigns itself to {@link getLatestSave `getLatestSave()`}
-	 */
+	/** Assigns itself to {@link getLatestSave `getLatestSave()`}  */
 	load() {
 		Object.assign(this, this.getLatestSave())
 	}
 }
 
+/** The game save, an instance of GameSaveClass */
 export let GameSave = new GameSaveClass()

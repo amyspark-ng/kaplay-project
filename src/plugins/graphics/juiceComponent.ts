@@ -147,6 +147,7 @@ export function juice() : juiceComp {
 			}
 
 			let waitThing = wait(time, cancelFunction)
+			thisObj.onDestroy(() => waitThing.cancel())
 
 			return {
 				cancel: cancelFunction
