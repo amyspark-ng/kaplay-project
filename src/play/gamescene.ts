@@ -1,28 +1,35 @@
-import { gameLayers } from "../game/layers"
-import { sceneNameType } from "../game/scenes"
+import { onTransitionEnd } from "../game/events"
+import { goScene } from "../game/scenes"
+import { fadeOutTransition } from "../game/transitions/fadeOutTransition"
 import { cam } from "../plugins/features/camera"
-import { playSound } from "../plugins/features/sound"
-import { soundTray } from "../plugins/features/soundtray"
+import { gameCursor } from "../plugins/features/gameCursor"
+import { drawDumbOutline } from "../plugins/graphics/drawDumbOutline"
 import { juice } from "../plugins/graphics/juiceComponent"
-import { utils } from "../utils"
 
-export function gamescene() { return scene("game" as sceneNameType, () => {
+export function GameScene() { scene("game", () => {
 	setBackground(RED.lighten(60))
 	
 	const bean = add([
 		sprite("bean"),
-		layer(gameLayers.background),
 		pos(center()),
 		anchor("center"),
 		juice(),
+		layer("background"),
 		area(),
 		scale(),
 		area(),
+		drawDumbOutline(30, RED),
 	])
 
-	const music = playSound("opening")
-
-	onClick(() => {
-		music.windDown()
+	bean.onHover(() => {
+		gameCursor.point()
 	})
-})} // END OF SCENE
+
+	bean.onHoverEnd(() => {
+		gameCursor.default()
+	})
+
+	onKeyPress("escape", () => {
+		goScene("title", fadeOutTransition)
+	})
+})}

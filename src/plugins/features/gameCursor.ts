@@ -1,8 +1,11 @@
 import { Comp } from "kaplay"
-import { gameLayers } from "../../game/layers"
+
+export let gameCursor:cursorObjectType = null
 
 interface customCursorComp extends Comp {
+	/** Points */
 	point: () =>  void
+	/** Is the default animation */
 	default: () =>  void
 }
 
@@ -20,12 +23,8 @@ function cursorComponent() : customCursorComp {
 	}
 }
 
-/**
- * Adds a cool mouse
- * @param lerpValue The lerp the cursor will move towards mousePos
- * @returns The mouse
- */
-export function addCursor(lerpValue?:number) {
+/** Adds a cool mouse */
+export function addCursorObject() {
 	setCursor("none")
 	
 	let theMousePos = mousePos()
@@ -37,15 +36,14 @@ export function addCursor(lerpValue?:number) {
 		cursorComponent(),
 		stay(),
 		fixed(),
-		layer(gameLayers.cursor),
+		z(0),
+		layer("cursor"),
 		"gameCursor",
 		{
 			update() {
-				theMousePos = lerp(theMousePos, mousePos(), lerpValue ?? 0.8)
+				theMousePos = lerp(theMousePos, mousePos(), 0.8)
 
-				if (isMouseMoved()) {
-					mouse.pos = theMousePos
-				}
+				if (isMouseMoved()) this.pos = theMousePos
 			}
 		}
 	])
@@ -53,5 +51,10 @@ export function addCursor(lerpValue?:number) {
 	return mouse;
 }
 
-export type cursorType = ReturnType<typeof addCursor>
-export const gameCursor = () => get("gameCursor")[0] as cursorType
+export type cursorObjectType = ReturnType<typeof addCursorObject>
+
+/** Actually sets the gameCursor object */
+export function setupCursor() {
+	gameCursor = addCursorObject()
+	gameCursor.layer = "cursor"
+}

@@ -1,50 +1,29 @@
-import { SceneDef } from "kaplay";
-import { gamescene } from "../play/gamescene";
-import { titlescene } from "../ui/titlescene";
-import { focusscene } from "../ui/focusscene";
+import { GameScene } from "../play/gamescene";
+import { FocusScene } from "../ui/focusscene";
+import { TitleScene } from "../ui/titlescene";
 
-export class sceneType {
-	key: string;
-	sceneThing: () => void;
-
-	constructor(key: string, sceneThing: () => void) {
-		this.key = key
-		this.sceneThing = sceneThing
-	}
+/** Object containing the name of all game scenes */
+const allGameScenes = {
+	"focus": FocusScene,
+	"title": TitleScene,
+	"game": GameScene,
 }
 
-export let allScenes:sceneType[] = []
+/** Custom type for scene names */
+export type sceneNameType = keyof typeof allGameScenes
 
 /**
- * 
- * @param sceneName 
- * @param extraParam 
- * @param transition 
+ * Custom function to go to a scene
+ * @param sceneName The name of the scene dictated by sceneNameType which is dictated by a list of all game scenes
+ * @param transition The transition to go to the scene, can be null then it won't have transition
  */
 export function goScene(sceneName: sceneNameType, transition?: (newName: sceneNameType) => void | null, ...args:any) {
+	transition = transition ?? null
 	if (transition != null) transition(sceneName)
 	else go(sceneName, args)
 }
 
-export function setTheScenes(objectWithScenes: any) {
-	for (const [key, value] of Object.entries(objectWithScenes)) {
-		allScenes.push(new sceneType(key, value as () => void))
-	}
-}
-
-const allGameScenes = {
-	"focus": focusscene,
-	"title": titlescene,
-	"game": gamescene,
-}
-
-export type sceneNameType = keyof typeof allGameScenes
-
+/** Is the function that calls all the scene definitions, thus loading them */
 export function setupScenes() {
-	// defines all the scenes
-	setTheScenes(allGameScenes)
-
-	allScenes.forEach(sceneType => {
-		sceneType.sceneThing()
-	});
+	Object.values(allGameScenes).forEach(sceneDefinition => sceneDefinition())
 }

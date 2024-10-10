@@ -1,7 +1,7 @@
-import { goScene, sceneNameType } from "../game/scenes";
+import { goScene } from "../game/scenes";
 import { STARTING_SCENE } from "../main";
 
-export function focusscene() { return scene("focus" as sceneNameType, () => {
+export function FocusScene() { scene("focus", () => {
 	setBackground(BLACK.lighten(50))
 	
 	add([

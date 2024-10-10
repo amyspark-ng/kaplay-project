@@ -6,4 +6,5 @@ export class GameStateClass {
 	playerLives: number = 3 
 }
 
+/** The GameState, an instance of GameStateClass */
 export const GameState = new GameStateClass()

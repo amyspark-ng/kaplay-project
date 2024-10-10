@@ -1,30 +1,31 @@
 import { EaseFunc, TweenController, Vec2 } from "kaplay"
 
-interface cameraInt {
+interface cameraInterface {
 	zoom: Vec2;
 	pos: Vec2;
 	rotation: number;
-
+	
+	/** Moves the camera to a new position */
 	moveTo(newPos: Vec2, time?: number, easing?: EaseFunc): TweenController;
+	
+	/** Bops the camera using the zoom */
 	bop(startScale: Vec2, endScale: Vec2, time?: number, easing?: EaseFunc): TweenController;
 }
 
 /** The game's camera  */
-export let cam:cameraInt = null
+export let cam:cameraInterface = null
 export function setupCamera() {
 	cam = {
 		zoom: vec2(1),
 		pos: center(),
 		rotation: 0,
 
-		/** Moves the camera to a new position */
 		moveTo(newPos, time?, easing?) {
 			time = time ?? 1
 			easing = easing ?? easings.easeOutExpo
 			return tween(cam.pos, newPos, time, (p) => cam.pos = p, easing)
 		},
 
-		/** Bops the camera using the zoom */
 		bop(startScale:Vec2, endScale: Vec2, time?:number, easing?:EaseFunc) {
 			time = time ?? 0.5
 			easing = easing ?? easings.easeOutQuad

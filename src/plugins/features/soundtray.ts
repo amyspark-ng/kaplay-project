@@ -177,6 +177,7 @@ export function addSoundTray(opts: addSoundTrayOpt) : SoundTray {
 	}
 }
 
+/** The soundtray object, if the {@link setupSoundtray `setupSoundtray`} function was not called it'll be null */
 export let soundTray:SoundTray = null
 
 /**

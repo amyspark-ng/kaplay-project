@@ -1,4 +1,3 @@
-import { gameLayers } from "../layers";
 import { goScene, sceneNameType } from "../scenes";
 
 export function slidingSquareTransition(newScene: sceneNameType) {
@@ -9,7 +8,7 @@ export function slidingSquareTransition(newScene: sceneNameType) {
 		color(BLACK),
 		opacity(1),
 		stay(),
-		layer(gameLayers.background),
+		layer("background"),
 		z(1),
 		timer(),
 	])
