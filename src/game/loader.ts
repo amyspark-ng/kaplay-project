@@ -32,6 +32,8 @@ export function loadAssets() {
 	loadSprite("cursor", "sprites/cursor-o.png")
 	loadSprite("pointer", "sprites/pointer-o.png")
 
+	loadSprite("yeouch", "sprites/yeouch.png")
+
 	loadSound("opening", "sounds/opening.ogg")
 	loadSound("ending", "sounds/ending.mp3")
 	loadSound("saataandagi", "sounds/saataandagi.ogg")

@@ -1,4 +1,4 @@
-import { gameEventHandler, triggerEvent } from "../events";
+import { triggerEvent } from "../events";
 import { goScene, sceneNameType } from "../scenes";
 
 export function fadeOutTransition(newScene: sceneNameType) {

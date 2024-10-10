@@ -3,14 +3,15 @@ import { goScene } from "../game/scenes"
 import { fadeOutTransition } from "../game/transitions/fadeOutTransition"
 import { cam } from "../plugins/features/camera"
 import { gameCursor } from "../plugins/features/gameCursor"
-import { drawDumbOutline } from "../plugins/graphics/drawDumbOutline"
+import { dumbOutline } from "../plugins/graphics/drawDumbOutline"
 import { juice } from "../plugins/graphics/juiceComponent"
+import { utils } from "../utils"
 
 export function GameScene() { scene("game", () => {
 	setBackground(RED.lighten(60))
 	
 	const bean = add([
-		sprite("bean"),
+		sprite("sprite"),
 		pos(center()),
 		anchor("center"),
 		juice(),
@@ -18,7 +19,6 @@ export function GameScene() { scene("game", () => {
 		area(),
 		scale(),
 		area(),
-		drawDumbOutline(30, RED),
 	])
 
 	bean.onHover(() => {

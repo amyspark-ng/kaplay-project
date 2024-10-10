@@ -1,6 +1,6 @@
 import { Color, Vec2 } from "kaplay";
-import { customAudioPlay } from "./plugins/features/sound"
 
+/** A simple utility class */
 export class utils {
 	/**
 	 * This function will run only when the game is running on desktop
@@ -12,8 +12,14 @@ export class utils {
 		}
 	}
 	
+	/** Gets a random position between 0 and width and height */
 	static randomPos() {
 		return vec2(rand(0, width()), rand(0, height()))
+	}
+
+	/** Gets a random color */
+	static randomColor() {
+		return rgb(rand(0, 255), rand(0, 255), rand(0, 255))
 	}
 
 	// 3 columns means 3 objects laid horizontally, 3 rows is 3 objects laid vertically

@@ -7,6 +7,7 @@ import { GameSave } from "./gamesave"
 import { setupLayers } from "./layers"
 import { loadAssets, loadingScreen } from "./loader"
 import { goScene, setupScenes } from "./scenes"
+import { setupEventHandler } from "./events"
 
 /** Sets up the game */
 export function initGame() {
@@ -25,7 +26,8 @@ export function initGame() {
 		setupCursor() // sets up the cursor
 		setupCamera(); // sets up the camera
 		setupSoundtray(); // sets up the soundtray
-	
+		setupEventHandler(); // sets up the event handler
+		
 		console.log(`${PRODUCT_AUTHOR}.${PRODUCT_NAME} v: ${PRODUCT_VERSION}`)
 		
 		// determins the scene the scene

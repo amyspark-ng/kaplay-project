@@ -1,5 +1,9 @@
 /** The game's main event handler */
-export const gameEventHandler = new KEventHandler()
+export let gameEventHandler:any = null;
+
+export function setupEventHandler() {
+	gameEventHandler = new KEventHandler();
+}
 
 /** Type that dictates possible events in the game */
 export type possibleEvents = "transitionStart" | "transitionEnd"
