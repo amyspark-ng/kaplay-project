@@ -3,11 +3,13 @@ import { utils } from "../../utils";
 
 type watches = {
 	stringName: string,
-	value: any,	
+	value: any,
+	beingWatched?: boolean,
 }
 
 /** Array containing all the variables currently being watched */
 export let watchedVariables:watches[] = []
+
 
 /** Watch a var, must be run onUpdate so the value gets updated */
 export function watchVar(stringName: string, value:any) {
@@ -18,8 +20,14 @@ export function watchVar(stringName: string, value:any) {
 
 	// watch IS on watchedVariables, must update
 	else {
-		watchedVariables.find(watch => watch.stringName == stringName).value = value
+		if (watchedVariables.find(watch => watch.stringName == stringName).beingWatched == true) {
+			watchedVariables.find(watch => watch.stringName == stringName).value = value
+		}
 	}
+}
+
+export function unwatchVar(stringName: string) {
+	watchedVariables.find(watch => watch.stringName == stringName).beingWatched = false
 }
 
 /** Sets up the debug watcher */
@@ -28,7 +36,13 @@ export function setupWatch() {
 		stay(),
 	]).onDraw(() => {
 		if (debug.inspect == false) return
-		let watchesText = watchedVariables.map(watch => `${watch.stringName}: ${watch.value}`).join("\n")
+
+		let watchesText:string = ""
+
+		watchedVariables.forEach((watch) => {
+			if (watch.beingWatched == false) return
+			watchesText += `${watch.stringName}: ${watch.value}\n`
+		})
 
 		const textOpts = {
 			text: watchesText,

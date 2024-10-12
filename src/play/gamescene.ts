@@ -5,7 +5,7 @@ import { dragger } from "../plugins/features/drag"
 import { gameCursor } from "../plugins/features/gameCursor"
 import { juice } from "../plugins/graphics/juiceComponent"
 import { utils } from "../utils"
-import { watchVar } from "../plugins/features/watcher"
+import { unwatchVar, watchVar } from "../plugins/features/watcher"
 
 export function GameScene() { scene("game", () => {
 	setBackground(RED.lighten(60))
@@ -57,6 +57,10 @@ export function GameScene() { scene("game", () => {
 			const newColor = utils.randomColor()
 			watchVar("aColor", newColor)
 		}
+	})
+
+	onKeyPress("m", () => {
+		unwatchVar("bean.pos")
 	})
 
 	onKeyPress("escape", () => {

@@ -24,7 +24,19 @@ export class utils {
 	
 	/** Removes an element from an array, returns the modified array */
 	static removeFromArray(el:any, arr: any[]) {
-		return arr.splice(arr.indexOf(el), 1);
+		return arr.filter(e => e != el)
+	}
+
+	static getVariableFromObj(obj: any, path: string) : any{
+		const parts = path.split(".")
+		const target = parts.slice(0, -1).reduce((o, p) => o[p], obj)
+		return target[parts[parts.length-1]]
+	}
+
+	static setVariableFromObj(obj: any, path: string, value: any) {
+		const parts = path.split(".")
+		const target = parts.slice(0, -1).reduce((o, p) => o[p], obj)
+		target[parts[parts.length-1]] = value
 	}
 
 	// 3 columns means 3 objects laid horizontally, 3 rows is 3 objects laid vertically

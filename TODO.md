@@ -13,3 +13,4 @@ Figure out a way to pass parameters to transitions
 Fix gameEventHandler typing
 
 make it so you can unwatch variables
+rework the entire watch system what the fuck
