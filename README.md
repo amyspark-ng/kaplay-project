@@ -2,7 +2,6 @@
 This is a little template i made in kaplay based of one that i had made before, the difference betwen this one and the other one is that this one has a few shmol features that are interlinked ones with another, some features add
 
 - GameState
-- Typed layers system
 - Custom sound playing
 - API for camera
 - JuiceComp, rewrited dragComp

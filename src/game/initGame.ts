@@ -8,6 +8,7 @@ import { setupLayers } from "./layers"
 import { loadAssets, loadingScreen } from "./loader"
 import { goScene, setupScenes } from "./scenes"
 import { setupEventHandler } from "./events"
+import { setupWatch } from "../plugins/features/watcher"
 
 /** Sets up the game */
 export function initGame() {
@@ -27,7 +28,8 @@ export function initGame() {
 		setupCamera(); // sets up the camera
 		setupSoundtray(); // sets up the soundtray
 		setupEventHandler(); // sets up the event handler
-		
+		setupWatch(); // sets up the debug watcher
+
 		console.log(`${PRODUCT_AUTHOR}.${PRODUCT_NAME} v: ${PRODUCT_VERSION}`)
 		
 		// determins the scene the scene

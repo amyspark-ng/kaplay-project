@@ -21,6 +21,11 @@ export class utils {
 	static randomColor() {
 		return rgb(rand(0, 255), rand(0, 255), rand(0, 255))
 	}
+	
+	/** Removes an element from an array, returns the modified array */
+	static removeFromArray(el:any, arr: any[]) {
+		return arr.splice(arr.indexOf(el), 1);
+	}
 
 	// 3 columns means 3 objects laid horizontally, 3 rows is 3 objects laid vertically
 	// from top to bottom
